@@ -1,0 +1,51 @@
+Act as AI LLM Expert and get me the cutoff date for Chatgpt,Qwen and Deepseek 
+
+
+
+Here are the knowledge cutoff dates for the latest flagship models from OpenAI, Qwen (Alibaba), and DeepSeek.
+
+**Key Distinction:** The "knowledge cutoff" refers to the date up to which the model was *trained*.
+
+* **ChatGPT** can access the internet to find newer information.
+* **DeepSeek** and **Qwen** (via API or standard interfaces) usually rely solely on their training data unless connected to a search tool by a third-party application.
+
+### 1. ChatGPT (OpenAI)
+
+OpenAI explicitly publishes its cutoff dates in its documentation.
+
+| Model | Knowledge Cutoff | Release Date |
+| --- | --- | --- |
+| **GPT-4o** | **October 2023** | May 2024 |
+| **o1 (Reasoning)** | **October 2023** | Sept 2024 |
+| **GPT-4 Turbo** | December 2023 | April 2024 |
+
+> **Note:** Even though GPT-4o's internal knowledge stops at Oct 2023, the *ChatGPT product* uses a search tool (Bing) to answer questions about events happening today.
+
+### 2. DeepSeek
+
+DeepSeek is generally more current than OpenAI's base models regarding internal training data.
+
+| Model | Knowledge Cutoff | Release Date |
+| --- | --- | --- |
+| **DeepSeek-V3** | **July 2024** | Dec 2024 |
+| **DeepSeek-R1** | **July 2024** | Jan 2025 |
+
+> **Note:** Users often find DeepSeek models claiming an "October 2023" cutoff. This is widely considered a "hallucination" where the model accidentally mimics OpenAI's system prompts. The actual training data includes events up to July 2024.
+
+### 3. Qwen (Alibaba)
+
+Alibaba does not officially highlight a specific "knowledge cutoff" date in their technical reports as prominently as OpenAI does. However, based on release timing and community testing:
+
+| Model | Est. Knowledge Cutoff | Release Date |
+| --- | --- | --- |
+| **Qwen 2.5** | **June 2024** (Estimated) | Sept 2024 |
+| **Qwen 2.5-VL** | **Late 2024** (Estimated) | Jan 2025 |
+
+> **Note:** The "Coder" variants of Qwen 2.5 share the same base pre-training, placing their general world knowledge cutoff around mid-2024 as well.
+
+### Summary Comparison
+
+* **Most Current Internal Knowledge:** **DeepSeek-V3 / R1** (July 2024)
+* **Best for Real-Time Events:** **ChatGPT** (Due to integrated Web Search features, not internal training).
+
+**Would you like to know which of these models performs best on coding or creative writing tasks based on their training?**
