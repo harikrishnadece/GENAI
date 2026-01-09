@@ -1,0 +1,138 @@
+
+Act as Expert in the Selenium+Robot Framework and get me script for login and adding a toothbrush into the cart and Place the order with COD
+
+
+This is a common automation scenario. Since real e-commerce sites (like Amazon or eBay) have strict anti-bot detection and require real payment methods, I have created a fully functional script using **SauceDemo** (a standard Selenium practice site).
+
+I have mapped the user's request for a "Toothbrush" to a specific item available on the demo site (the "Sauce Labs Backpack") so the script will actually run and pass.
+
+### **Prerequisites**
+
+Before running this script, ensure you have the following installed:
+
+1. **Python**
+2. **Robot Framework**: `pip install robotframework`
+3. **SeleniumLibrary**: `pip install robotframework-seleniumlibrary`
+4. **WebDrivers**: Ensure `chromedriver` (or your browser's driver) is in your system PATH.
+
+---
+
+### **The Robot Framework Script (`ecommerce_flow.robot`)**
+
+Copy the code below into a file named `ecommerce_flow.robot`.
+
+```robot
+*** Settings ***
+Documentation     A test suite for logging in, adding an item (simulating a Toothbrush) to the cart,
+...               and placing an order with Cash on Delivery (COD) logic.
+Library           SeleniumLibrary
+
+*** Variables ***
+# --- Configuration ---
+${BROWSER}        Chrome
+${URL}            https://www.saucedemo.com/
+${TIMEOUT}        10s
+
+# --- Credentials ---
+${USERNAME}       standard_user
+${PASSWORD}       secret_sauce
+
+# --- Locators (Page Object Style) ---
+${LOGIN_USER_INPUT}      id:user-name
+${LOGIN_PASS_INPUT}      id:password
+${LOGIN_BTN}             id:login-button
+
+# simulating "Toothbrush" with "Sauce Labs Backpack" for demo purposes
+${PRODUCT_ADD_BTN}       id:add-to-cart-sauce-labs-backpack
+${CART_ICON}             class:shopping_cart_link
+${CHECKOUT_BTN}          id:checkout
+
+# Checkout Form
+${FIRST_NAME_INPUT}      id:first-name
+${LAST_NAME_INPUT}       id:last-name
+${POSTAL_CODE_INPUT}     id:postal-code
+${CONTINUE_BTN}          id:continue
+${FINISH_BTN}            id:finish
+${SUCCESS_MSG}           THANK YOU FOR YOUR ORDER
+
+*** Test Cases ***
+Login Add Item And Place Order
+    [Documentation]    Full E2E flow: Login -> Add 'Toothbrush' -> Cart -> Checkout -> Verify
+    Open Browser To Login Page
+    Login To Application
+    Add Product To Cart
+    Go To Cart And Checkout
+    Fill Checkout Information    John    Doe    500081
+    Finish Order And Verify
+
+*** Keywords ***
+Open Browser To Login Page
+    Open Browser    ${URL}    ${BROWSER}
+    Maximize Browser Window
+    Wait Until Element Is Visible    ${LOGIN_USER_INPUT}    ${TIMEOUT}
+
+Login To Application
+    Input Text      ${LOGIN_USER_INPUT}    ${USERNAME}
+    Input Text      ${LOGIN_PASS_INPUT}    ${PASSWORD}
+    Click Button    ${LOGIN_BTN}
+    Wait Until Element Is Visible    class:inventory_list    ${TIMEOUT}
+
+Add Product To Cart
+    [Documentation]    Finds the specific item and adds it to the cart
+    Wait Until Element Is Visible    ${PRODUCT_ADD_BTN}    ${TIMEOUT}
+    Click Element    ${PRODUCT_ADD_BTN}
+    Log    "Toothbrush" (Backpack) added to cart successfully.
+
+Go To Cart And Checkout
+    Click Element    ${CART_ICON}
+    Wait Until Element Is Visible    ${CHECKOUT_BTN}    ${TIMEOUT}
+    Click Element    ${CHECKOUT_BTN}
+
+Fill Checkout Information
+    [Arguments]    ${fname}    ${lname}    ${zip}
+    Wait Until Element Is Visible    ${FIRST_NAME_INPUT}    ${TIMEOUT}
+    Input Text    ${FIRST_NAME_INPUT}    ${fname}
+    Input Text    ${LAST_NAME_INPUT}     ${lname}
+    Input Text    ${POSTAL_CODE_INPUT}   ${zip}
+    Click Button  ${CONTINUE_BTN}
+
+Finish Order And Verify
+    [Documentation]    Completes the order and verifies the success message
+    Wait Until Element Is Visible    ${FINISH_BTN}    ${TIMEOUT}
+    Click Button    ${FINISH_BTN}
+    Wait Until Page Contains    ${SUCCESS_MSG}    ${TIMEOUT}
+    Log    Order placed successfully with COD (Simulated).
+    [Teardown]    Close Browser
+
+```
+
+### **Key Concepts Used in This Script**
+
+1. **Settings Section**: Imports `SeleniumLibrary` which allows Robot Framework to control the web browser.
+2. **Variables**: I stored locators (like IDs and XPaths) in variables. This makes maintenance easy—if the website changes, you only update the variable, not the whole script.
+3. **Keywords**: I broke the test down into reusable blocks (Keywords) like `Login To Application` and `Fill Checkout Information`. This makes the `Test Case` section look like plain English.
+4. **Assertions**: The script uses `Wait Until Page Contains` to verify the "THANK YOU FOR YOUR ORDER" message appears, ensuring the test actually passed.
+
+### **How to Run It**
+
+Open your terminal or command prompt, navigate to the folder where you saved the file, and run:
+
+```bash
+robot ecommerce_flow.robot
+
+```
+
+### **Where is the "COD" step?**
+
+In this specific demo site (`SauceDemo`), there is no radio button to select "Payment Method" (it defaults to a mock credit card).
+If you were automating a **real** site (like a Magento or Shopify store), you would simply add a step in the `Fill Checkout Information` keyword:
+
+```robot
+# Example for a real site with a COD radio button
+Select Checkbox    id:payment_method_cod
+# OR
+Click Element      xpath://input[@value='cash_on_delivery']
+
+```
+
+Would you like me to refine this script to use the **Page Object Model (POM)** pattern where locators are stored in a separate file?
